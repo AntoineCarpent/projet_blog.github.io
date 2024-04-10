@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use Illuminate\View\View;
+use App\Models\Post;
 
 
 class WelcomeController extends Controller{   
     public function welcome() {    
-        $post = Post::all();
+        $post = Post::latest()->get();
         return view('welcome', [
-            'post'=> $post,
+            'posts'=> $post,
         ]);
     }
 }

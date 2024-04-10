@@ -8,8 +8,6 @@
 <body>
     <a href="{{ route('welcome') }}">Acceuil</a>
     <div class="container">
-        <!-- <h1>{{$title}}</h1>
-        <p>{{$description}}</p> -->
         
     </div>
 </body>

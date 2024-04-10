@@ -8,7 +8,7 @@
                 <option value="">3</option>
             </select>
         </div>
-        @foreach($title as $titles)
+        @foreach($posts as $post)
             <a
             href=""
             id="article"
@@ -19,6 +19,7 @@
                 <p class="mt-4 text-sm/relaxed">
                     {{$post->description}}
                 </p>    
+                <img src="{{$post->image}}" alt="">
             </a>  
         @endforeach 
     </div>
