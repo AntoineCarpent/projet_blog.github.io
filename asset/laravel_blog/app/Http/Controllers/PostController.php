@@ -28,9 +28,14 @@ class PostController extends Controller
       'title' => 'required|max:255',
       'body' => 'required',
     ]);
-    Post::create($request->all());
-    return redirect()->route('dashboard')
-      ->with('success', 'Post created successfully.');
+      $post = new Post;
+      $post->title = $request->title;
+      $post->body = $request->body;
+      $post->user_id = Auth::id();
+      $post->save();
+      
+      return redirect()->route('dashboard')
+        ->with('success', 'Post created successfully.');
   }
   /**
    * Update the specified resource in storage.

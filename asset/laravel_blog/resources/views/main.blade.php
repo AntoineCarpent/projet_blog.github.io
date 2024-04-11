@@ -11,6 +11,7 @@
                         <p class="mt-4 text-sm/relaxed">
                             {{$post->body}}
                         </p>
+                        <p class="text-sm/relaxed">{{$post->user->name}}</p>
                     </a>  
                 @endforeach 
             </div>
