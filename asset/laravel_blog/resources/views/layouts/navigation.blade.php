@@ -1,3 +1,4 @@
+
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,9 +17,10 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('add')">
-                        {{ __('Ajouter') }}
-                    </x-nav-link>
+                    @if (Auth::user()->role)
+                        <x-nav-link class="btn btn-sm tn-success"   href="posts/create">Ajouter
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 

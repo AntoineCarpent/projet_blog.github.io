@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 class PostController extends Controller
 {
   /**
@@ -10,10 +11,10 @@ class PostController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function dashboard()
   {
     $posts = Post::all();
-    return view('posts.index', compact('posts'));
+    return view('dashboard', compact('posts'));
   }
   /**
    * Store a newly created resource in storage.
@@ -28,7 +29,7 @@ class PostController extends Controller
       'body' => 'required',
     ]);
     Post::create($request->all());
-    return redirect()->route('posts.index')
+    return redirect()->route('dashboard')
       ->with('success', 'Post created successfully.');
   }
   /**
@@ -46,7 +47,7 @@ class PostController extends Controller
     ]);
     $post = Post::find($id);
     $post->update($request->all());
-    return redirect()->route('posts.index')
+    return redirect()->route('dashboard')
       ->with('success', 'Post updated successfully.');
   }
   /**
