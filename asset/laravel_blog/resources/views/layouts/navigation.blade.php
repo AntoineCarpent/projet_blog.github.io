@@ -18,12 +18,15 @@
                     </x-nav-link>
 
                     
-                        <x-nav-link class="btn btn-sm tn-success"   href="posts/create">Ajouter un post
+                        <x-nav-link class="btn btn-sm tn-success"   href="create">Ajouter un post
                         </x-nav-link>
                     
 
                     @if (Auth::user()->role)
-                        <x-nav-link class="btn btn-sm tn-success"   href="posts/create">Ajouter une catégorie
+                        <x-nav-link class="btn btn-sm tn-success"   href="{{route('category')}}">Catégories
+                        </x-nav-link>
+
+                        <x-nav-link class="btn btn-sm tn-success"   href="{{route('user')}}">Utilisateurs
                         </x-nav-link>
                     @endif
                 </div>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+
 class PostController extends Controller
 {
   /**
@@ -13,7 +15,7 @@ class PostController extends Controller
    */
   public function dashboard()
   {
-    $posts = Post::all();
+    $posts = Post::latest()->paginate(5);
     return view('dashboard', compact('posts'));
   }
   /**
@@ -28,12 +30,16 @@ class PostController extends Controller
       'title' => 'required|max:255',
       'body' => 'required',
     ]);
-      $post = new Post;
-      $post->title = $request->title;
-      $post->body = $request->body;
-      $post->user_id = Auth::id();
-      $post->save();
-      
+    
+      $posts = new Post;
+      $posts->title = $request->title;
+      $posts->body = $request->body;
+      $posts->user_id = Auth::id();
+      $posts->save();
+      $categories = $request->category;
+    
+      $posts->categories()->attach($categories);
+     
       return redirect()->route('dashboard')
         ->with('success', 'Post created successfully.');
   }
@@ -52,6 +58,10 @@ class PostController extends Controller
     ]);
     $post = Post::find($id);
     $post->update($request->all());
+
+    $categories = $request->category;
+      $post->categories()->sync($categories);
+    
     return redirect()->route('dashboard')
       ->with('success', 'Post updated successfully.');
   }
@@ -64,8 +74,9 @@ class PostController extends Controller
   public function destroy($id)
   {
     $post = Post::find($id);
+    $post->categories()->detach();
     $post->delete();
-    return redirect()->route('posts.index')
+    return redirect()->route('dashboard')
       ->with('success', 'Post deleted successfully');
   }
   // routes functions
@@ -76,7 +87,10 @@ class PostController extends Controller
    */
   public function create()
   {
-    return view('posts.create');
+    $categories = Category::all();
+    return view('posts.create', [
+      'categories' => $categories,
+    ]);
   }
   /**
    * Display the specified resource.
@@ -98,6 +112,10 @@ class PostController extends Controller
   public function edit($id)
   {
     $post = Post::find($id);
-    return view('posts.edit', compact('post'));
+    $categories = Category::all();
+    return view('posts.edit', compact('post'),[
+      'posts'=> $post,
+      'categories' => $categories,
+    ]);
   }
 }
