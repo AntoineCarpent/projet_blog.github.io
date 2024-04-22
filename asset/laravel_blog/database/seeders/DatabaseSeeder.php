@@ -5,6 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Post;
+use App\Models\Category;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,34 +21,22 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test',
             'email' => 'test@example.com',
             'role' => '1',
-            'password' => 'test63',
-        ]);
-        User::factory()->create([
-            'name' => 'Michel',
-            'role' => '1',
-            'email' => 'Michel@example.com',
             'password' => 'azerty63',
         ]);
         User::factory()->create([
-            'name' => 'User',
+            'name' => 'user',
+            'role' => '0',
             'email' => 'user@example.com',
             'password' => 'azerty63',
         ]);
-        User::factory()->create([
-            'name' => 'Pat',
-            'email' => 'Pat@example.com',
-            'password' => 'azerty63',
-        ]);
-        User::factory()->create([
-            'name' => 'to',
-            'email' => 'to@example.com',
-            'password' => 'azerty63',
-        ]);
-        User::factory()->create([
-            'name' => 'ti',
-            'email' => 'ti@example.com',
-            'password' => 'azerty63',
-        ]);
+
+        User::factory(3)->create();
+
+        $category = Category::factory(5)->create();
+
+        Post::factory(20)->create()->each(function ($posts) use($category){
+            $posts->categories()->attach($category->random());
+        });
     }
 }
 

@@ -31,15 +31,19 @@ class PostController extends Controller
       'body' => 'required',
     ]);
     
-      $posts = new Post;
-      $posts->title = $request->title;
-      $posts->body = $request->body;
-      $posts->user_id = Auth::id();
-      $posts->save();
-      $categories = $request->category;
     
-      $posts->categories()->attach($categories);
-     
+    $post = new Post;
+    $post->title = $request->title;
+    $post->body = $request->body;
+    $post->picture = $request->picture;
+    $post->user_id = Auth::id();
+    $post->save();
+
+    $categories = $request->category;
+    $post->categories()->attach($categories);
+    
+    $this->storeImage($post);
+
       return redirect()->route('dashboard')
         ->with('success', 'Post created successfully.');
   }
@@ -56,12 +60,15 @@ class PostController extends Controller
       'title' => 'required|max:255',
       'body' => 'required',
     ]);
+    
     $post = Post::find($id);
     $post->update($request->all());
 
     $categories = $request->category;
-      $post->categories()->sync($categories);
+    $post->categories()->sync($categories);
     
+    $this->storeImage($post);
+
     return redirect()->route('dashboard')
       ->with('success', 'Post updated successfully.');
   }
@@ -118,4 +125,15 @@ class PostController extends Controller
       'categories' => $categories,
     ]);
   }
+  private function storeImage(Post $post){
+    
+    if (request('picture')){
+
+      $post->update([
+        'picture' => request('picture')->store('images', 'public'),
+      ]);
+    }
+  }
+
+ 
 }

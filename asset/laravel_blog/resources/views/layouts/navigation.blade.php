@@ -7,7 +7,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('welcome') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-red-800 dark:text-gray-200" />
                     </a>
                 </div>
 
@@ -18,15 +18,15 @@
                     </x-nav-link>
 
                     
-                        <x-nav-link class="btn btn-sm tn-success"   href="create">Ajouter un post
+                        <x-nav-link class="btn btn-sm tn-success" :href="route('create')" :active="request()->routeIs('create')">Ajouter un post
                         </x-nav-link>
                     
 
                     @if (Auth::user()->role)
-                        <x-nav-link class="btn btn-sm tn-success"   href="{{route('category')}}">Catégories
+                        <x-nav-link class="btn btn-sm tn-success" :href="route('category')" :active="request()->routeIs('category')">Catégories
                         </x-nav-link>
 
-                        <x-nav-link class="btn btn-sm tn-success"   href="{{route('user')}}">Utilisateurs
+                        <x-nav-link class="btn btn-sm tn-success" :href="route('user')" :active="request()->routeIs('user')">Utilisateurs
                         </x-nav-link>
                     @endif
                 </div>
